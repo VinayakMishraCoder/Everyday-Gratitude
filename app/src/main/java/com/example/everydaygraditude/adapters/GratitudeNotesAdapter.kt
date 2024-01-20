@@ -1,6 +1,7 @@
 package com.example.everydaygraditude.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.everydaygraditude.databinding.ItemGraditudeNoteBinding
@@ -26,9 +27,15 @@ class GratitudeNotesAdapter @Inject constructor(): RecyclerView.Adapter<Gratitud
 
     inner class NotesItemViewHolder(var binding: ItemGraditudeNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(currNote: GratitudeNote) {
+        fun bind(position:Int, currNote: GratitudeNote) {
             binding.currNote = currNote
             binding.shareButton.setOnClickListener { onShareClickListener?.invoke(currNote) }
+
+            /**
+             * Show Gratitude Ending Icons and text at the very end of the list.
+             * */
+            binding.endIcon.visibility = if(position == dataList.size-1) View.VISIBLE else View.GONE
+            binding.endText.visibility = if(position == dataList.size-1) View.VISIBLE else View.GONE
         }
     }
 
@@ -37,7 +44,7 @@ class GratitudeNotesAdapter @Inject constructor(): RecyclerView.Adapter<Gratitud
     }
 
     override fun onBindViewHolder(holder: NotesItemViewHolder, position: Int) {
-        holder.bind(dataList[position])
+        holder.bind(position, dataList[position])
     }
 
     override fun getItemCount(): Int  = dataList.size
