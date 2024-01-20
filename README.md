@@ -21,7 +21,7 @@ The Everyday-Gratitude app serves as a thoughtfully crafted self-care companion,
 
 ## Demo Video
 
-Demo Link - https://drive.google.com/file/d/18snFozlqqHHtle33X4xBi4sq5yl67i3v/view?usp=sharing
+Demo Link - [https://drive.google.com/file/d/18snFozlqqHHtle33X4xBi4sq5yl67i3v/view?usp=sharing](https://drive.google.com/drive/folders/18pKetfpfMBOLI4vAaDkRywV8V5s-VlwA?usp=sharing)
 
 ## Feedback and Support
 
