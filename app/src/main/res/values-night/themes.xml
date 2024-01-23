@@ -28,7 +28,7 @@
     </style>
 
     <style name="ShareDialogTheme">
-        <item name="android:background">@color/pink70</item>
+        <item name="android:background">@color/pink80</item>
     </style>
 
     <style name="ScreenBackground">

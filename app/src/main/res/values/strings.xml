@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Everyday Graditude</string>
+    <string name="whatsapp">Whatsapp</string>
+    <string name="instagram">Instagram</string>
+    <string name="facebook">Facebook</string>
+    <string name="download">Download</string>
+    <string name="more">More</string>
+    <string name="copy">Copy</string>
+    <string name="share_to">Share To</string>
+    <string name="zen_ending">That’s the Zen for today! See you tomorrow :)</string>
 </resources>

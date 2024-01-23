@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="currNote"
             type="com.example.everydaygraditude.datamodels.GratitudeNote" />
@@ -15,10 +16,10 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageView
-            style="@style/CardButtonTheme"
             android:id="@+id/closeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/CardButtonTheme"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:src="@drawable/baseline_close_24"
@@ -36,8 +37,7 @@
             android:fontFamily="@font/inter_regular"
             android:maxLines="1"
             android:text="@{currNote.primaryCTAText}"
-            android:textSize="19sp"
-            android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Quote of the day." />
@@ -49,6 +49,7 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
             app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/materialTextView">
@@ -67,9 +68,10 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/materialCardView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
+            app:cardElevation="0dp"
             android:backgroundTint="@color/pink20"
             app:cardCornerRadius="100dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,14 +85,13 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="6dp"
                     android:layout_marginStart="20dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/inter_regular"
                     android:maxLines="1"
                     android:text="@{currNote.text + ` - ` +currNote.author}"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/copyButton"
                     app:layout_constraintStart_toStartOf="parent"
@@ -99,23 +100,25 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/copyButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="2dp"
+                    android:layout_width="84dp"
+                    android:layout_height="40dp"
+                    android:layout_marginVertical="8dp"
                     android:layout_marginEnd="4dp"
                     android:backgroundTint="@color/pink20"
                     android:insetLeft="0dp"
                     android:insetTop="0dp"
                     android:insetRight="0dp"
+                    android:elevation="0dp"
                     android:insetBottom="0dp"
+                    android:text="@string/copy"
                     android:textAllCaps="false"
-                    android:text="Copy"
                     android:textColor="@color/pink100"
+                    android:textSize="14sp"
                     app:cornerRadius="50dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:strokeColor="@color/pink30"
+                    app:strokeColor="@color/pink120"
                     app:strokeWidth="1dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -126,33 +129,32 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginHorizontal="40dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="17dp"
-            android:background="@color/pink40"
+            android:background="@color/pink50"
             app:layout_constraintStart_toStartOf="@+id/materialCardView2"
             app:layout_constraintTop_toBottomOf="@+id/materialCardView2" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView3"
+            style="@style/CardTextViewTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Share To"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:text="@string/share_to"
+            android:textSize="14sp"
+            android:fontFamily="@font/inter_bold"
             app:layout_constraintStart_toStartOf="@+id/materialCardView2"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/whatsappShareButton"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="10dp"
-            android:padding="2dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:clickable="true"
+            android:layout_marginTop="10dp"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/whatsappicon"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/instagramShareButton"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -160,9 +162,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/instagramShareButton"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:padding="2dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:clickable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/instaicon"
@@ -174,9 +175,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/facebookShareButton"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:padding="2dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:clickable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/fbicon"
@@ -189,14 +189,12 @@
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/downloadButton"
             style="@style/CardButtonTheme"
-            android:layout_width="55dp"
-            android:clickable="true"
-            android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:layout_height="55dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:layout_marginVertical="20dp"
             android:background="@drawable/circle_bg"
-            android:padding="13dp"
-            android:scaleType="fitCenter"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/downloadicon"
             app:layout_constraintBottom_toBottomOf="@+id/facebookShareButton"
             app:layout_constraintEnd_toStartOf="@+id/moreButton"
@@ -207,20 +205,94 @@
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/moreButton"
             style="@style/CardButtonTheme"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
             android:layout_marginVertical="20dp"
             android:background="@drawable/circle_bg"
-            android:padding="13dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/moreicon"
             android:clickable="true"
             android:foreground="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/moreicon"
             app:layout_constraintBottom_toBottomOf="@+id/downloadButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/downloadButton"
             app:layout_constraintTop_toTopOf="@+id/downloadButton" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView4"
+            style="@style/CardTextViewTheme"
+            android:layout_width="wrap_content"
+            android:text="@string/whatsapp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/inter_semibold"
+            android:lineSpacingExtra="3sp"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/whatsappShareButton"
+            app:layout_constraintStart_toStartOf="@+id/whatsappShareButton"
+            app:layout_constraintTop_toBottomOf="@+id/whatsappShareButton" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView5"
+            style="@style/CardTextViewTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_semibold"
+            android:lineSpacingExtra="3sp"
+            android:textSize="11sp"
+            android:text="@string/instagram"
+            android:layout_marginTop="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView4"
+            app:layout_constraintEnd_toEndOf="@+id/instagramShareButton"
+            app:layout_constraintStart_toStartOf="@+id/instagramShareButton"
+            app:layout_constraintTop_toBottomOf="@+id/instagramShareButton" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView6"
+            style="@style/CardTextViewTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_semibold"
+            android:lineSpacingExtra="3sp"
+            android:textSize="11sp"
+            android:layout_marginTop="4dp"
+            android:text="@string/facebook"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView5"
+            app:layout_constraintEnd_toEndOf="@+id/facebookShareButton"
+            app:layout_constraintStart_toStartOf="@+id/facebookShareButton"
+            app:layout_constraintTop_toBottomOf="@+id/facebookShareButton"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView7"
+            style="@style/CardTextViewTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_semibold"
+            android:lineSpacingExtra="3sp"
+            android:text="@string/download"
+            android:textSize="11sp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView6"
+            app:layout_constraintEnd_toEndOf="@+id/downloadButton"
+            app:layout_constraintStart_toStartOf="@+id/downloadButton"
+            app:layout_constraintTop_toBottomOf="@+id/downloadButton" />
+
+        <com.google.android.material.textview.MaterialTextView
+            style="@style/CardTextViewTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_semibold"
+            android:lineSpacingExtra="3sp"
+            android:textSize="11sp"
+            android:layout_marginTop="4dp"
+            android:text="@string/more"
+            app:layout_constraintBottom_toBottomOf="@+id/materialTextView7"
+            app:layout_constraintEnd_toEndOf="@+id/moreButton"
+            app:layout_constraintStart_toStartOf="@+id/moreButton"
+            app:layout_constraintTop_toBottomOf="@+id/moreButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

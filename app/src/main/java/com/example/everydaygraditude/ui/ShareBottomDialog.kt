@@ -11,6 +11,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.everydaygraditude.databinding.ShareBottomDialogBinding
 import com.example.everydaygraditude.datamodels.GratitudeNote
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -67,6 +68,15 @@ class ShareBottomDialog : BottomSheetDialogFragment() {
             dismiss()
         }
         return binding.root
+    }
+
+    /**
+     * Open dialog to expanded state.
+     * */
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val behavior = BottomSheetBehavior.from(view.parent as View)
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     /**
