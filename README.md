@@ -19,6 +19,11 @@ The Everyday-Gratitude app serves as a thoughtfully crafted self-care companion,
    - RetroFit Framework for HTTP requests.
    - Error Handling.
 
+## APK 
+
+Below is the Drive link to the latest APK.
+https://drive.google.com/file/d/1bwheVWLEeSJDMWfar-wzaonSRvIJe4KC/view?usp=sharing
+
 ## Demo Video
 
 Demo Link - [https://drive.google.com/file/d/18snFozlqqHHtle33X4xBi4sq5yl67i3v/view?usp=sharing](https://drive.google.com/drive/folders/18pKetfpfMBOLI4vAaDkRywV8V5s-VlwA?usp=sharing)
