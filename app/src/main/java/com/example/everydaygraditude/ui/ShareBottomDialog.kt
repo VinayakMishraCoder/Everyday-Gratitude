@@ -7,9 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.everydaygraditude.databinding.ShareBottomDialogBinding
 import com.example.everydaygraditude.datamodels.GratitudeNote
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 import java.util.*
 
 /**
@@ -41,13 +52,13 @@ class ShareBottomDialog : BottomSheetDialogFragment() {
             copyToClipBoard()
         }
         binding.whatsappShareButton.setOnClickListener {
-            shareTextOnApp(WHATSAPP)
+            shareZenOnApps(WHATSAPP)
         }
         binding.facebookShareButton.setOnClickListener {
-            shareTextOnApp(FACEBOOK)
+            shareZenOnApps(FACEBOOK)
         }
         binding.instagramShareButton.setOnClickListener {
-            shareTextOnApp(INSTAGRAM)
+            shareZenOnApps(INSTAGRAM)
         }
         binding.moreButton.setOnClickListener {
             moreShareOptions()
@@ -69,29 +80,43 @@ class ShareBottomDialog : BottomSheetDialogFragment() {
     }
 
     /**
-     * Share text on all the available apps.
+     * Share text and downloaded image on all the available apps.
      * */
     private fun moreShareOptions() {
         val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "text/plain"
-        shareIntent.putExtra(Intent.EXTRA_TEXT, currentNoteData?.text + " - " + currentNoteData?.author)
+        shareIntent.type = "image/*"
 
-        val chooserIntent = Intent.createChooser(shareIntent, "Share with")
-        if (chooserIntent.resolveActivity(requireActivity().packageManager) != null) {
-            startActivity(chooserIntent)
-        } else {
-            Toast.makeText(this.requireContext(), "No apps available to share.", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch (Dispatchers.IO) {
+            val imageFile = currentNoteData?.dzImageUrl?.let { downloadImageAsync(it) }
+            val imageUri = imageFile?.let {
+                FileProvider.getUriForFile(
+                    requireContext(),
+                    "${requireContext().packageName}.provider",
+                    it
+                )
+            }
+
+            shareIntent.putExtra(Intent.EXTRA_TEXT, currentNoteData?.text + " - " + currentNoteData?.author)
+            shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+            val chooserIntent = Intent.createChooser(shareIntent, "Share with")
+            if (chooserIntent.resolveActivity(requireActivity().packageManager) != null) {
+                startActivity(chooserIntent)
+            } else {
+                Toast.makeText(this@ShareBottomDialog.requireContext(), "No apps available to share.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     /**
-     * Share text on the apps: Whatsapp, Instagram, Facebook.
+     * Share text and downloaded image on the apps: Whatsapp, Instagram, Facebook.
      * Parameter: appName from companion object.
      * */
-    private fun shareTextOnApp(appName: String) {
-
+    private fun shareZenOnApps(appName: String) {
         val appIntent = Intent(Intent.ACTION_SEND)
-        appIntent.type = "text/plain"
+        appIntent.type = "image/*"
+
         appIntent.setPackage(when(appName) {
             WHATSAPP -> "com.whatsapp"
             INSTAGRAM -> "com.instagram.android"
@@ -99,13 +124,55 @@ class ShareBottomDialog : BottomSheetDialogFragment() {
             else -> "com.whatsapp"
         })
 
-        appIntent.putExtra(Intent.EXTRA_TEXT, currentNoteData?.text + " - " + currentNoteData?.author)
+        lifecycleScope.launch(Dispatchers.IO) {
+            val imageFile = currentNoteData?.dzImageUrl?.let { downloadImageAsync(it) }
+            val imageUri = imageFile?.let {
+                FileProvider.getUriForFile(
+                    requireContext(),
+                    "${requireContext().packageName}.provider",
+                    it
+                )
+            }
+
+            appIntent.putExtra(Intent.EXTRA_TEXT, currentNoteData?.text + " - " + currentNoteData?.author)
+            appIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
+            appIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+            try {
+                Objects.requireNonNull(activity)?.startActivity(appIntent)
+            } catch (ex: ActivityNotFoundException) {
+                Toast.makeText(this@ShareBottomDialog.requireContext(), "${appName} Not installed.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    /**
+     * Download image temporarily for sharing to other apps.
+     * */
+    private suspend fun downloadImageAsync(imageUrl: String): File = withContext(Dispatchers.IO) {
+        val url = URL(imageUrl)
+        val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+        connection.doInput = true
+        connection.connect()
+        val inputStream: InputStream = connection.inputStream
+        val imageFile = File(requireContext().cacheDir, "shared_image.jpg")
 
         try {
-            Objects.requireNonNull(activity)?.startActivity(appIntent)
-        } catch (ex: ActivityNotFoundException) {
-            Toast.makeText(this.requireContext(), "${appName} Not installed.", Toast.LENGTH_SHORT).show()
+            val outputStream = FileOutputStream(imageFile)
+            val buffer = ByteArray(1024)
+            var bytesRead: Int
+            while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                outputStream.write(buffer, 0, bytesRead)
+            }
+            outputStream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            inputStream.close()
+            connection.disconnect()
         }
+
+        return@withContext imageFile
     }
 
     /**
